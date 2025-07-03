@@ -3,8 +3,9 @@ import { PainCareWeTreatData } from '@/components/paincarewetreat';
 import { pricingData } from '@/app/pricing/page';
 import { conditions } from '@/components/conditions';
 import { services } from '@/components/Services';
+import { primaryCareServices } from '@/app/primary-care-doctor/page';
 
-const BASE_URL = 'https://primaryurgentcare.com';
+const BASE_URL = 'https://wpucc.com';
 
 export async function GET() {
   // Static routes
@@ -14,11 +15,12 @@ export async function GET() {
     '/emergencyroom',
     '/lawyers',
     '/locations',
-    '/pain-management-program',
+    '/pain-management-care',
     '/paincare',
     '/pricing',
     '/service',
     '/urgentinjurycare',
+    '/primary-care-doctor',
   ];
 
   // Dynamic routes
@@ -28,6 +30,9 @@ export async function GET() {
   const urgentInjuryCareRoutes: string[] = conditions.map(item => `/urgentinjurycare/${item.slug}`);
   const serviceRoutes: string[] = services.map(item => `/service/${item.slug}`);
 
+  // Add dynamic routes for primary-care-doctor/[slug]
+  const primaryCareDoctorRoutes: string[] = primaryCareServices.map((item: { slug: string }) => `/primary-care-doctor/${item.slug}`);
+
   const allRoutes: string[] = [
     ...staticRoutes,
     ...locationRoutes,
@@ -35,6 +40,7 @@ export async function GET() {
     ...pricingRoutes,
     ...urgentInjuryCareRoutes,
     ...serviceRoutes,
+    ...primaryCareDoctorRoutes,
   ];
 
   const urls = allRoutes.map(

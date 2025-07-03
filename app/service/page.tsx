@@ -32,11 +32,11 @@ export const metadata = {
   openGraph: {
     title: 'Hospital-Grade Imaging & Diagnostic Services | Urgent Care Palm Beach County',
     description: 'Get same-day MRI, CT scan, digital X-ray, ultrasound, and nuclear medicine at our urgent care centers in Palm Beach County. Walk in or book an appointment for hospital-level diagnostics—no ER wait, affordable pricing, and fast results.',
-    url: 'https://primaryurgentcare.com/service',
+    url: 'https://wpucc.com/service',
     type: 'website',
     images: [
       {
-        url: 'https://primaryurgentcare.com/servicelanding.jpg',
+        url: 'https://wpucc.com/servicelanding.jpg',
         width: 1200,
         height: 630,
         alt: 'Hospital-Grade Imaging & Diagnostic Services | Urgent Care Palm Beach County',
@@ -47,10 +47,10 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Hospital-Grade Imaging & Diagnostic Services | Urgent Care Palm Beach County',
     description: 'Get same-day MRI, CT scan, digital X-ray, ultrasound, and nuclear medicine at our urgent care centers in Palm Beach County. Walk in or book an appointment for hospital-level diagnostics—no ER wait, affordable pricing, and fast results.',
-    images: ['https://primaryurgentcare.com/servicelanding.jpg'],
+    images: ['https://wpucc.com/servicelanding.jpg'],
   },
   alternates: {
-    canonical: 'https://primaryurgentcare.com/service',
+    canonical: 'https://wpucc.com/service',
   },
 };
 
@@ -64,8 +64,8 @@ export function ServiceJsonLd() {
           '@context': 'https://schema.org',
           '@type': 'MedicalClinic',
           name: 'Primary & Urgent Care Centers of Palm Beach County',
-          url: 'https://primaryurgentcare.com/service',
-          image: 'https://primaryurgentcare.com/servicelanding.jpg',
+          url: 'https://wpucc.com/service',
+          image: 'https://wpucc.com/servicelanding.jpg',
           description:
             'Hospital-grade imaging and diagnostic services including MRI, CT scan, digital X-ray, ultrasound, and nuclear medicine. Walk-in or book same-day appointments at our urgent care centers in Royal Palm Beach, Lake Worth, Palm Springs, and Lantana.',
           areaServed: [
@@ -85,6 +85,44 @@ export function ServiceJsonLd() {
           openingHours: 'Mo-Su 08:00-20:00',
           priceRange: '$$',
           telephone: '+1-561-555-1234', // Update to real phone if available
+          address: [
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '11476 Okeechobee Blvd.',
+              addressLocality: 'Royal Palm Beach',
+              addressRegion: 'FL',
+              postalCode: '33411',
+              addressCountry: 'US',
+              name: 'Royal Palm Beach Primary & Urgent Care Center'
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '6447 Lake Worth Road',
+              addressLocality: 'Lake Worth',
+              addressRegion: 'FL',
+              postalCode: '33463',
+              addressCountry: 'US',
+              name: 'Lake Worth Primary & Urgent Care Center'
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '3696 S. Congress Ave.',
+              addressLocality: 'Palm Springs',
+              addressRegion: 'FL',
+              postalCode: '33461',
+              addressCountry: 'US',
+              name: 'Palm Springs Primary & Urgent Care Center'
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '6169 S Jog Road, Unit 4B',
+              addressLocality: 'Lantana',
+              addressRegion: 'FL',
+              postalCode: '33467',
+              addressCountry: 'US',
+              name: 'Lantana Primary & Urgent Care Center'
+            }
+          ],
         }),
       }}
     />

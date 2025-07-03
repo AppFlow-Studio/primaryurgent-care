@@ -66,9 +66,44 @@ const EmergencyRoomPage = async ({params}: {params: Promise<{slug: string}>}) =>
 export default EmergencyRoomPage
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const erService = services.find((x) => x.slug === params.slug);
+  const baseUrl = 'https://wpucc.com';
+  const url = `${baseUrl}/emergencyroom/${params.slug}`;
   return {
+    title: erService?.metaTitle || 'Emergency Room Level Care | Palm Beach County Urgent Care',
+    description: erService?.metaDescription || 'Get emergency room level care for injuries and illnesses at our Palm Beach County urgent care clinics. Fast, affordable, and expert care. No appointment needed.',
+    keywords: erService?.keywords || [
+      'emergency room care',
+      'urgent care',
+      'walk-in clinic',
+      'Palm Beach County',
+      'emergency care',
+      'ER alternative',
+      'injury treatment',
+      'illness treatment',
+    ],
     alternates: {
-      canonical: `https://primaryurgentcare.com/emergencyroom/${params.slug}`,
+      canonical: url,
+    },
+    openGraph: {
+      title: erService?.metaTitle || 'Emergency Room Level Care | Palm Beach County Urgent Care',
+      description: erService?.metaDescription || 'Get emergency room level care for injuries and illnesses at our Palm Beach County urgent care clinics. Fast, affordable, and expert care. No appointment needed.',
+      url,
+      type: 'article',
+      images: [
+        {
+          url: erService?.image ? `${baseUrl}${erService.image}` : `${baseUrl}/emergencyroomlevelcare.jpg`,
+          width: 1200,
+          height: 630,
+          alt: erService?.title || 'Emergency Room Service',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: erService?.metaTitle || 'Emergency Room Level Care | Palm Beach County Urgent Care',
+      description: erService?.metaDescription || 'Get emergency room level care for injuries and illnesses at our Palm Beach County urgent care clinics. Fast, affordable, and expert care. No appointment needed.',
+      images: [erService?.image ? `${baseUrl}${erService.image}` : `${baseUrl}/emergencyroomlevelcare.jpg`],
     },
   };
 }

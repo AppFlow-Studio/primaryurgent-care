@@ -18,9 +18,9 @@ export const metadata = {
   openGraph: {
     title: "Urgent Care Locations Near You | Palm Beach County Walk-In Clinics | Primary & Urgent Care Centers",
     description: "Find a Primary & Urgent Care Center near you in Palm Beach County. Walk-in clinics in Royal Palm Beach, Lake Worth, Palm Springs, and Lantana. Short wait times, most insurance accepted, and hospital-level care.",
-    url: "https://primaryurgentcare.com/locations",
+    url: "https://wpucc.com/locations",
     images: [
-      { url: "/servicelanding.jpg", width: 1200, height: 630, alt: "Urgent Care Locations Palm Beach County" }
+      { url: "https://wpucc.com/servicelanding.jpg", width: 1200, height: 630, alt: "Urgent Care Locations Palm Beach County" }
     ],
     type: "website"
   },
@@ -29,11 +29,11 @@ export const metadata = {
     title: "Urgent Care Locations Near You | Palm Beach County Walk-In Clinics | Primary & Urgent Care Centers",
     description: "Find a Primary & Urgent Care Center near you in Palm Beach County. Walk-in clinics in Royal Palm Beach, Lake Worth, Palm Springs, and Lantana. Short wait times, most insurance accepted, and hospital-level care.",
     images: [
-      { url: "/servicelanding.jpg", alt: "Urgent Care Locations Palm Beach County" }
+      { url: "https://wpucc.com/servicelanding.jpg", alt: "Urgent Care Locations Palm Beach County" }
     ]
   },
   alternates: {
-    canonical: "https://primaryurgentcare.com/locations"
+    canonical: "https://wpucc.com/locations"
   },
   icons: {
     icon: "/favicon.ico",

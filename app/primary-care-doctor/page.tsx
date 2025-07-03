@@ -6,7 +6,7 @@ import Polestar from '@/components/icons/polestar';
 import { Marquee } from '@/components/magicui/marquee';
 import Link from 'next/link';
 
-const primaryCareServices = [
+export const primaryCareServices = [
     {
         title: 'Sick Visits',
         slug: 'sick-visits',
@@ -91,15 +91,123 @@ const visitSteps = [
 
 ];
 
+export const metadata = {
+  title: "Primary Care Doctor | Family Medicine & Walk-In Clinic Palm Beach County",
+  description: "See a primary care doctor for sick visits, checkups, physicals, and preventive care. Walk in or book online at our Palm Beach County urgent care and family medicine clinic.",
+  keywords: [
+    "primary care doctor",
+    "family medicine",
+    "walk-in clinic",
+    "sick visit",
+    "annual physical",
+    "preventive care",
+    "Palm Beach County",
+    "urgent care"
+  ],
+  alternates: {
+    canonical: "https://wpucc.com/primary-care-doctor"
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Primary Care Doctor | Family Medicine & Walk-In Clinic Palm Beach County",
+    description: "See a primary care doctor for sick visits, checkups, physicals, and preventive care. Walk in or book online at our Palm Beach County urgent care and family medicine clinic.",
+    url: "https://wpucc.com/primary-care-doctor",
+    type: "website",
+    images: [
+      "https://wpucc.com/doctorwithpatient.jpg"
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Primary Care Doctor | Family Medicine & Walk-In Clinic Palm Beach County",
+    description: "See a primary care doctor for sick visits, checkups, physicals, and preventive care. Walk in or book online at our Palm Beach County urgent care and family medicine clinic.",
+    images: ["https://wpucc.com/doctorwithpatient.jpg"],
+    site: "@wpucc"
+  }
+};
+
 export default function PrimaryCareDoctorPage() {
     return (
         <main className="bg-[#F7FAFF] min-h-screen">
-            <Head>
-                <title>Primary Care Doctor | Family Medicine & Walk-In Clinic Palm Beach County</title>
-                <meta name="description" content="See a primary care doctor for sick visits, checkups, physicals, and preventive care. Walk in or book online at our Palm Beach County urgent care and family medicine clinic." />
-                <meta name="keywords" content="primary care doctor, family medicine, walk-in clinic, sick visit, annual physical, preventive care, Palm Beach County, urgent care" />
-                <link rel="canonical" href="https://primaryurgentcare.com/primary-care-doctor" />
-            </Head>
+            {/* JSON-LD Structured Data for LocalBusiness */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "MedicalClinic",
+                    "name": "Primary Urgent Care - Family Medicine & Walk-In Clinic",
+                    "image": "https://wpucc.com/doctorwithpatient.jpg",
+                    "@id": "https://wpucc.com/primary-care-doctor",
+                    "url": "https://wpucc.com/primary-care-doctor",
+                    "telephone": "+1-561-204-5111",
+                    "address": [
+                      {
+                        "@type": "PostalAddress",
+                        "streetAddress": "11476 Okeechobee Blvd.",
+                        "addressLocality": "Royal Palm Beach",
+                        "addressRegion": "FL",
+                        "postalCode": "33411",
+                        "addressCountry": "US",
+                        "name": "Royal Palm Beach Primary & Urgent Care Center"
+                      },
+                      {
+                        "@type": "PostalAddress",
+                        "streetAddress": "6447 Lake Worth Road",
+                        "addressLocality": "Lake Worth",
+                        "addressRegion": "FL",
+                        "postalCode": "33463",
+                        "addressCountry": "US",
+                        "name": "Lake Worth Primary & Urgent Care Center"
+                      },
+                      {
+                        "@type": "PostalAddress",
+                        "streetAddress": "3696 S. Congress Ave.",
+                        "addressLocality": "Palm Springs",
+                        "addressRegion": "FL",
+                        "postalCode": "33461",
+                        "addressCountry": "US",
+                        "name": "Palm Springs Primary & Urgent Care Center"
+                      },
+                      {
+                        "@type": "PostalAddress",
+                        "streetAddress": "6169 S Jog Road, Unit 4B",
+                        "addressLocality": "Lantana",
+                        "addressRegion": "FL",
+                        "postalCode": "33467",
+                        "addressCountry": "US",
+                        "name": "Lantana Primary & Urgent Care Center"
+                      }
+                    ],
+                    "geo": {
+                      "@type": "GeoCoordinates",
+                      "latitude": 26.7153,
+                      "longitude": -80.0534
+                    },
+                    "openingHoursSpecification": [{
+                      "@type": "OpeningHoursSpecification",
+                      "dayOfWeek": [
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday",
+                        "Sunday"
+                      ],
+                      "opens": "08:00",
+                      "closes": "20:00"
+                    }],
+                    "sameAs": [
+                      "https://www.facebook.com/wpucc",
+                      "https://www.instagram.com/wpucc"
+                    ]
+                  })
+                }}
+            />
             {/* Split Hero Section with Overlapping Card */}
             <section className="relative w-full flex flex-col md:flex-row items-center justify-center gap-40 py-16 px-4 bg-gradient-to-br from-[#D52128]/90 via-[#F7FAFF]/60 to-[#A7E3F7]/60 overflow-hidden
             [mask-composite:intersect] [mask-image:linear-gradient(to_top,transparent,black_6rem)]

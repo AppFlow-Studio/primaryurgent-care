@@ -32,11 +32,11 @@ export const metadata = {
     title: "Urgent Injury Care | Walk-In Fracture, Sprain, Laceration & Sports Injury Clinic Palm Beach County | Primary & Urgent Care Centers",
     description:
       "Walk in for rapid injury care: sprains, fractures, cuts, burns, and sports injuries. On-site X-ray, MRI, CT, and STAT results. Board-certified providers, less than 15 min wait, $69 self-pay, most insurance accepted. Serving Palm Beach County.",
-    url: "https://primaryurgentcare.com/urgentinjurycare",
+    url: "https://wpucc.com/urgentinjurycare",
     type: "website",
     images: [
       {
-        url: "/urgentcarelanding.jpg",
+        url: "https://wpucc.com/urgentcarelanding.jpg",
         width: 1200,
         height: 630,
         alt: "Urgent injury care walk-in clinic Palm Beach County"
@@ -49,11 +49,11 @@ export const metadata = {
     description:
       "Walk in for rapid injury care: sprains, fractures, cuts, burns, and sports injuries. On-site X-ray, MRI, CT, and STAT results. Board-certified providers, less than 15 min wait, $69 self-pay, most insurance accepted. Serving Palm Beach County.",
     images: [
-      "/urgentcarelanding.jpg"
+      "https://wpucc.com/urgentcarelanding.jpg"
     ]
   },
   alternates: {
-    canonical: "https://primaryurgentcare.com/urgentinjurycare"
+    canonical: "https://wpucc.com/urgentinjurycare"
   }
 };
 
@@ -66,7 +66,7 @@ const UrgentInjuryCareJsonLd = () => (
         '@context': 'https://schema.org',
         '@type': 'MedicalClinic',
         name: 'Primary & Urgent Care Centers of Palm Beach County',
-        url: 'https://primaryurgentcare.com/urgentinjurycare',
+        url: 'https://wpucc.com/urgentinjurycare',
         areaServed: {
           '@type': 'AdministrativeArea',
           name: 'Palm Beach County, FL'
@@ -95,14 +95,44 @@ const UrgentInjuryCareJsonLd = () => (
           'Antibiotics',
           'Insurance & Self-Pay Accepted'
         ],
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: 'See locations page',
-          addressLocality: 'Palm Beach County',
-          addressRegion: 'FL',
-          postalCode: '',
-          addressCountry: 'US'
-        },
+        address: [
+          {
+            '@type': 'PostalAddress',
+            streetAddress: '11476 Okeechobee Blvd.',
+            addressLocality: 'Royal Palm Beach',
+            addressRegion: 'FL',
+            postalCode: '33411',
+            addressCountry: 'US',
+            name: 'Royal Palm Beach Primary & Urgent Care Center'
+          },
+          {
+            '@type': 'PostalAddress',
+            streetAddress: '6447 Lake Worth Road',
+            addressLocality: 'Lake Worth',
+            addressRegion: 'FL',
+            postalCode: '33463',
+            addressCountry: 'US',
+            name: 'Lake Worth Primary & Urgent Care Center'
+          },
+          {
+            '@type': 'PostalAddress',
+            streetAddress: '3696 S. Congress Ave.',
+            addressLocality: 'Palm Springs',
+            addressRegion: 'FL',
+            postalCode: '33461',
+            addressCountry: 'US',
+            name: 'Palm Springs Primary & Urgent Care Center'
+          },
+          {
+            '@type': 'PostalAddress',
+            streetAddress: '6169 S Jog Road, Unit 4B',
+            addressLocality: 'Lantana',
+            addressRegion: 'FL',
+            postalCode: '33467',
+            addressCountry: 'US',
+            name: 'Lantana Primary & Urgent Care Center'
+          }
+        ],
         telephone: '+1-561-555-5555',
         description: 'Walk-in urgent injury care for sprains, fractures, lacerations, burns, and sports injuries. On-site X-ray, MRI, CT, and STAT results. Board-certified providers, less than 15 min wait, $69 self-pay, most insurance accepted. Serving Palm Beach County.'
       })

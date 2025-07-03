@@ -34,7 +34,7 @@ export const metadata = {
   openGraph: {
     title: 'Book Urgent Care Appointment Palm Beach | Same Day & Walk-In Visits',
     description: 'Schedule a same-day urgent care appointment or walk in to any of our Palm Beach County clinics. Fast check-in, short wait times, most insurance accepted, $69 self-pay.',
-    url: 'https://primaryuc.com/appointment',
+    url: 'https://wpucc.com/appointment',
     siteName: 'Primary & Urgent Care Centers',
     images: [
       {
@@ -52,10 +52,9 @@ export const metadata = {
     title: 'Book Urgent Care Appointment Palm Beach | Same Day & Walk-In Visits',
     description: 'Schedule a same-day urgent care appointment or walk in to any of our Palm Beach County clinics. Fast check-in, short wait times, most insurance accepted, $69 self-pay.',
     images: ['/appointment.png'],
-    site: '@primaryurgentcare',
   },
   alternates: {
-    canonical: 'https://primaryuc.com/appointment',
+    canonical: 'https://wpucc.com/appointment',
   },
 };
 

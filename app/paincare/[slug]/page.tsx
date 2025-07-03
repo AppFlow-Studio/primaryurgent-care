@@ -183,6 +183,8 @@ export default async function ConditionDetails({
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const condition_details = PainCareWeTreatData.find((x) => x.slug === params.slug);
+  const baseUrl = 'https://wpucc.com';
+  const url = `${baseUrl}/paincare/${params.slug}`;
   return {
     title: condition_details?.metaTitle || `Pain & Injury Care | Palm Beach County Urgent Care`,
     description: condition_details?.metaDescription || `Walk-in urgent care for pain and injuries in Palm Beach County. Same-day evaluation, imaging, and expert treatment. No appointment needed.`,
@@ -194,7 +196,27 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       'pain relief Palm Beach County'
     ],
     alternates: {
-      canonical: `https://primaryurgentcare.com/paincare/${params.slug}`,
+      canonical: url,
+    },
+    openGraph: {
+      title: condition_details?.metaTitle || `Pain & Injury Care | Palm Beach County Urgent Care`,
+      description: condition_details?.metaDescription || `Walk-in urgent care for pain and injuries in Palm Beach County. Same-day evaluation, imaging, and expert treatment. No appointment needed.`,
+      url,
+      type: 'article',
+      images: [
+        {
+          url: condition_details?.img ? `${baseUrl}${condition_details.img}` : `${baseUrl}/paincare.jpg`,
+          width: 1200,
+          height: 630,
+          alt: condition_details?.title || 'Pain Care',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: condition_details?.metaTitle || `Pain & Injury Care | Palm Beach County Urgent Care`,
+      description: condition_details?.metaDescription || `Walk-in urgent care for pain and injuries in Palm Beach County. Same-day evaluation, imaging, and expert treatment. No appointment needed.`,
+      images: [condition_details?.img ? `${baseUrl}${condition_details.img}` : `${baseUrl}/paincare.jpg`],
     },
   };
 }

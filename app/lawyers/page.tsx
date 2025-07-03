@@ -25,11 +25,11 @@ export const metadata = {
     title: "Legal Records Request for Attorneys | Auto Accident & Personal Injury Medical Records Palm Beach County",
     description:
       "Request urgent care medical records for auto accident, PIP, and personal injury cases. Fast, HIPAA-compliant legal records for attorneys and law firms in Palm Beach County.",
-    url: "https://primaryurgentcare.com/lawyers",
+    url: "https://wpucc.com/lawyers",
     type: "website",
     images: [
       {
-        url: "/lawyers.jpg",
+        url: "https://wpucc.com/lawyers.jpg",
         width: 1200,
         height: 630,
         alt: "Lawyers requesting urgent care medical records Palm Beach County"
@@ -42,11 +42,11 @@ export const metadata = {
     description:
       "Request urgent care medical records for auto accident, PIP, and personal injury cases. Fast, HIPAA-compliant legal records for attorneys and law firms in Palm Beach County.",
     images: [
-      "/lawyers.jpg"
+      "https://wpucc.com/lawyers.jpg"
     ]
   },
   alternates: {
-    canonical: "https://primaryurgentcare.com/lawyers"
+    canonical: "https://wpucc.com/lawyers"
   }
 };
 
@@ -59,7 +59,7 @@ const LawyersJsonLd = () => (
         '@context': 'https://schema.org',
         '@type': 'LegalService',
         name: 'Primary & Urgent Care Centers of Palm Beach County - Legal Records Department',
-        url: 'https://primaryurgentcare.com/lawyers',
+        url: 'https://wpucc.com/lawyers',
         areaServed: {
           '@type': 'AdministrativeArea',
           name: 'Palm Beach County, FL'
@@ -74,15 +74,45 @@ const LawyersJsonLd = () => (
         provider: {
           '@type': 'MedicalClinic',
           name: 'Primary & Urgent Care Centers of Palm Beach County',
-          url: 'https://primaryurgentcare.com',
-          address: {
-            '@type': 'PostalAddress',
-            streetAddress: 'See locations page',
-            addressLocality: 'Palm Beach County',
-            addressRegion: 'FL',
-            postalCode: '',
-            addressCountry: 'US'
-          },
+          url: 'https://wpucc.com',
+          address: [
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '11476 Okeechobee Blvd.',
+              addressLocality: 'Royal Palm Beach',
+              addressRegion: 'FL',
+              postalCode: '33411',
+              addressCountry: 'US',
+              name: 'Royal Palm Beach Primary & Urgent Care Center'
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '6447 Lake Worth Road',
+              addressLocality: 'Lake Worth',
+              addressRegion: 'FL',
+              postalCode: '33463',
+              addressCountry: 'US',
+              name: 'Lake Worth Primary & Urgent Care Center'
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '3696 S. Congress Ave.',
+              addressLocality: 'Palm Springs',
+              addressRegion: 'FL',
+              postalCode: '33461',
+              addressCountry: 'US',
+              name: 'Palm Springs Primary & Urgent Care Center'
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '6169 S Jog Road, Unit 4B',
+              addressLocality: 'Lantana',
+              addressRegion: 'FL',
+              postalCode: '33467',
+              addressCountry: 'US',
+              name: 'Lantana Primary & Urgent Care Center'
+            }
+          ],
           telephone: '+1-561-555-5555'
         },
         audience: [

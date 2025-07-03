@@ -44,11 +44,11 @@ export const metadata = {
   openGraph: {
     title: 'Urgent Care Pricing & Self-Pay Cost | Affordable Walk-In Clinic Palm Beach County',
     description: 'See transparent urgent care pricing for office visits, imaging, physicals, and more. $69.99 self-pay visit. No surprise bills. Most insurance accepted. Serving Royal Palm Beach, Lake Worth, Palm Springs, and Lantana. Compare urgent care vs ER cost and save.',
-    url: 'https://primaryurgentcare.com/pricing',
+    url: 'https://wpucc.com/pricing',
     type: 'website',
     images: [
       {
-        url: 'https://primaryurgentcare.com/insurance.jpg',
+        url: 'https://wpucc.com/insurance.jpg',
         width: 1200,
         height: 630,
         alt: 'Urgent Care Pricing & Self-Pay Cost | Affordable Walk-In Clinic Palm Beach County',
@@ -59,10 +59,10 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Urgent Care Pricing & Self-Pay Cost | Affordable Walk-In Clinic Palm Beach County',
     description: 'See transparent urgent care pricing for office visits, imaging, physicals, and more. $69.99 self-pay visit. No surprise bills. Most insurance accepted. Serving Royal Palm Beach, Lake Worth, Palm Springs, and Lantana. Compare urgent care vs ER cost and save.',
-    images: ['https://primaryurgentcare.com/insurance.jpg'],
+    images: ['https://wpucc.com/insurance.jpg'],
   },
   alternates: {
-    canonical: 'https://primaryurgentcare.com/pricing',
+    canonical: 'https://wpucc.com/pricing',
   },
 };
 
@@ -75,8 +75,8 @@ export function PricingJsonLd() {
           '@context': 'https://schema.org',
           '@type': 'MedicalClinic',
           name: 'Primary & Urgent Care Centers of Palm Beach County',
-          url: 'https://primaryurgentcare.com/pricing',
-          image: 'https://primaryurgentcare.com/insurance.jpg',
+          url: 'https://wpucc.com/pricing',
+          image: 'https://wpucc.com/insurance.jpg',
           description:
             'Transparent urgent care pricing for office visits, imaging, physicals, and more. $69.99 self-pay visit. No surprise bills. Most insurance accepted. Serving Royal Palm Beach, Lake Worth, Palm Springs, and Lantana.',
           areaServed: [
@@ -147,6 +147,44 @@ export function PricingJsonLd() {
               },
             ],
           },
+          address: [
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '11476 Okeechobee Blvd.',
+              addressLocality: 'Royal Palm Beach',
+              addressRegion: 'FL',
+              postalCode: '33411',
+              addressCountry: 'US',
+              name: 'Royal Palm Beach Primary & Urgent Care Center'
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '6447 Lake Worth Road',
+              addressLocality: 'Lake Worth',
+              addressRegion: 'FL',
+              postalCode: '33463',
+              addressCountry: 'US',
+              name: 'Lake Worth Primary & Urgent Care Center'
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '3696 S. Congress Ave.',
+              addressLocality: 'Palm Springs',
+              addressRegion: 'FL',
+              postalCode: '33461',
+              addressCountry: 'US',
+              name: 'Palm Springs Primary & Urgent Care Center'
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '6169 S Jog Road, Unit 4B',
+              addressLocality: 'Lantana',
+              addressRegion: 'FL',
+              postalCode: '33467',
+              addressCountry: 'US',
+              name: 'Lantana Primary & Urgent Care Center'
+            }
+          ],
         }),
       }}
     />

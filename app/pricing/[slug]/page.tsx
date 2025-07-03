@@ -177,6 +177,8 @@ const PricingPage = async ({params}: {params: Promise<{slug: string}>}) => {
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const pricing = pricingData.find((x) => x.slug === params.slug);
+  const baseUrl = 'https://wpucc.com';
+  const url = `${baseUrl}/pricing/${params.slug}`;
   return {
     title: pricing?.metaTitle || 'Urgent Care Pricing & Self-Pay Cost | Affordable Walk-In Clinic Palm Beach County',
     description: pricing?.metaDescription || 'See transparent urgent care pricing for office visits, imaging, physicals, and more. $69.99 self-pay visit. No surprise bills. Most insurance accepted. Serving Royal Palm Beach, Lake Worth, Palm Springs, and Lantana.',
@@ -189,7 +191,27 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       'affordable urgent care',
     ],
     alternates: {
-      canonical: `https://primaryurgentcare.com/pricing/${params.slug}`,
+      canonical: url,
+    },
+    openGraph: {
+      title: pricing?.metaTitle || 'Urgent Care Pricing & Self-Pay Cost | Affordable Walk-In Clinic Palm Beach County',
+      description: pricing?.metaDescription || 'See transparent urgent care pricing for office visits, imaging, physicals, and more. $69.99 self-pay visit. No surprise bills. Most insurance accepted. Serving Royal Palm Beach, Lake Worth, Palm Springs, and Lantana.',
+      url,
+      type: 'article',
+      images: [
+        {
+          url: pricing?.img ? `${baseUrl}${pricing.img}` : `${baseUrl}/insurance.jpg`,
+          width: 1200,
+          height: 630,
+          alt: pricing?.title || 'Urgent Care Pricing',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pricing?.metaTitle || 'Urgent Care Pricing & Self-Pay Cost | Affordable Walk-In Clinic Palm Beach County',
+      description: pricing?.metaDescription || 'See transparent urgent care pricing for office visits, imaging, physicals, and more. $69.99 self-pay visit. No surprise bills. Most insurance accepted. Serving Royal Palm Beach, Lake Worth, Palm Springs, and Lantana.',
+      images: [pricing?.img ? `${baseUrl}${pricing.img}` : `${baseUrl}/insurance.jpg`],
     },
   };
 }

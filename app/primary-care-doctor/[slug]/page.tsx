@@ -1,5 +1,5 @@
 import React from 'react';
-import Head from 'next/head';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Reveal from '@/components/RevealAnimation';
 import Polestar from '@/components/icons/polestar';
@@ -208,6 +208,41 @@ const primaryCareServices = [
     }
 ]
 
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+    const service = primaryCareServices.find(s => s.slug === params.slug);
+    if (!service) return {};
+    const baseUrl = 'https://wpucc.com';
+    const url = `${baseUrl}/primary-care-doctor/${service.slug}`;
+    return {
+        title: service.metaTitle || `${service.title} | Primary Care Services`,
+        description: service.metaDescription || service.description,
+        keywords: service.keywords || [],
+        alternates: {
+            canonical: url,
+        },
+        openGraph: {
+            title: service.metaTitle || `${service.title} | Primary Care Services`,
+            description: service.metaDescription || service.description,
+            url,
+            type: 'article',
+            images: [
+                {
+                    url: service.image ? `${baseUrl}${service.image}` : `${baseUrl}/doctorwithpatient.jpg`,
+                    width: 1200,
+                    height: 630,
+                    alt: service.title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: service.metaTitle || `${service.title} | Primary Care Services`,
+            description: service.metaDescription || service.description,
+            images: [service.image ? `${baseUrl}${service.image}` : `${baseUrl}/doctorwithpatient.jpg`],
+        },
+    };
+}
+
 export default function PrimaryCareServicePage({ params }: { params: { slug: string } }) {
     const service = primaryCareServices.find(s => s.slug === params.slug);
     if (!service) {
@@ -217,11 +252,91 @@ export default function PrimaryCareServicePage({ params }: { params: { slug: str
     }
     return (
         <main className="bg-[#F7FAFF] min-h-screen py-10">
-            <Head>
-                <title>{service.metaTitle || service.title + ' | Primary Care Services'}</title>
-                <meta name="description" content={service.metaDescription || service.description} />
-                {service.keywords && <meta name="keywords" content={service.keywords.join(', ')} />}
-            </Head>
+            {/* JSON-LD Structured Data for LocalBusiness and Service */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "MedicalClinic",
+                    "name": "Primary Urgent Care - Family Medicine & Walk-In Clinic",
+                    "image": `https://wpucc.com${service.image}`,
+                    "@id": `https://wpucc.com/primary-care-doctor/${service.slug}`,
+                    "url": `https://wpucc.com/primary-care-doctor/${service.slug}`,
+                    "telephone": "+1-561-204-5111",
+                    "address": [
+                      {
+                        "@type": "PostalAddress",
+                        "streetAddress": "11476 Okeechobee Blvd.",
+                        "addressLocality": "Royal Palm Beach",
+                        "addressRegion": "FL",
+                        "postalCode": "33411",
+                        "addressCountry": "US",
+                        "name": "Royal Palm Beach Primary & Urgent Care Center"
+                      },
+                      {
+                        "@type": "PostalAddress",
+                        "streetAddress": "6447 Lake Worth Road",
+                        "addressLocality": "Lake Worth",
+                        "addressRegion": "FL",
+                        "postalCode": "33463",
+                        "addressCountry": "US",
+                        "name": "Lake Worth Primary & Urgent Care Center"
+                      },
+                      {
+                        "@type": "PostalAddress",
+                        "streetAddress": "3696 S. Congress Ave.",
+                        "addressLocality": "Palm Springs",
+                        "addressRegion": "FL",
+                        "postalCode": "33461",
+                        "addressCountry": "US",
+                        "name": "Palm Springs Primary & Urgent Care Center"
+                      },
+                      {
+                        "@type": "PostalAddress",
+                        "streetAddress": "6169 S Jog Road, Unit 4B",
+                        "addressLocality": "Lantana",
+                        "addressRegion": "FL",
+                        "postalCode": "33467",
+                        "addressCountry": "US",
+                        "name": "Lantana Primary & Urgent Care Center"
+                      }
+                    ],
+                    "geo": {
+                      "@type": "GeoCoordinates",
+                      "latitude": 26.7153,
+                      "longitude": -80.0534
+                    },
+                    "openingHoursSpecification": [{
+                      "@type": "OpeningHoursSpecification",
+                      "dayOfWeek": [
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday",
+                        "Sunday"
+                      ],
+                      "opens": "08:00",
+                      "closes": "20:00"
+                    }],
+                    "sameAs": [
+                      "https://www.facebook.com/wpucc",
+                      "https://www.instagram.com/wpucc"
+                    ],
+                    "makesOffer": {
+                      "@type": "Offer",
+                      "itemOffered": {
+                        "@type": "Service",
+                        "name": service.title,
+                        "description": service.metaDescription || service.description,
+                        "url": `https://wpucc.com/primary-care-doctor/${service.slug}`
+                      }
+                    }
+                  })
+                }}
+            />
             {/* Hero Section */}
             <section className="w-full flex flex-col items-center justify-center py-10 px-4">
                 <div className="max-w-7xl w-full flex flex-col lg:flex-row gap-10 items-start">
