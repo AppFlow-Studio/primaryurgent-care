@@ -26,6 +26,7 @@ import { Loader2 } from "lucide-react";
 import { trackFormSubmission, pushEnhancedConversion } from "../../lib/gtag";
 import { getAttributionData } from "@/lib/gclid";
 import { useConsent } from "@/components/ConsentProvider";
+import { getFormTestBypassHeaders } from "@/lib/form-security/client-test-bypass";
 import {
   getValidatedPhoneNumber,
   formatUSPhoneNumber,
@@ -95,7 +96,10 @@ const BookAppointmentForm = ({
       const attribution = getAttributionData();
       const response = await fetch("/api/forms/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...getFormTestBypassHeaders(),
+        },
         body: JSON.stringify({
           fullName,
           email: data.email,

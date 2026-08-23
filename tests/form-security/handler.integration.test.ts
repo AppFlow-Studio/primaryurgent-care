@@ -117,6 +117,7 @@ function submit(
       accidentType: lead.accidentType,
       message: lead.message || lead.preferredTime,
     }),
+    getFullName: (lead) => lead.fullName,
     successRedirect: "/thank-you",
     dependencies,
   });
@@ -317,6 +318,126 @@ describe("protected appointment handler", () => {
       "content-length": String(33 * 1024),
     });
     expect((await submit(request, dependencies)).status).toBe(413);
+    expect(delivered).toHaveLength(0);
+  });
+
+  it("lets a valid test bypass token skip verification, rate limits, and duplicate protection", async () => {
+    const bypassConfig: FormSecurityConfig = {
+      ...config,
+      testBypassToken: "gtm-conversion-tester-token-value",
+    };
+    const { dependencies, delivered, events } = buildDependencies({
+      getConfig: () => bypassConfig,
+      checkIp: vi.fn(async () => ({
+        allowed: false,
+        available: true,
+        retryAfter: 60,
+      })),
+    });
+    const request = makeRequest(validBody, {
+      "x-form-test-token": "gtm-conversion-tester-token-value",
+    });
+    const first = await submit(request, dependencies);
+    expect(first.status).toBe(200);
+    expect(await first.json()).toEqual({ ok: true, redirect: "/thank-you" });
+
+    const second = await submit(
+      makeRequest(validBody, {
+        "x-form-test-token": "gtm-conversion-tester-token-value",
+      }),
+      dependencies,
+    );
+    expect(second.status).toBe(200);
+    expect(await second.json()).toEqual({ ok: true, redirect: "/thank-you" });
+
+    expect(delivered).toHaveLength(2);
+    expect(dependencies.verify).not.toHaveBeenCalled();
+    expect(dependencies.checkIdentifier).not.toHaveBeenCalled();
+    expect(dependencies.reserve).not.toHaveBeenCalled();
+    expect(events.map((event) => event.decision)).toEqual([
+      "test_bypass",
+      "test_bypass",
+    ]);
+  });
+
+  it("ignores an incorrect test bypass token and enforces normal checks", async () => {
+    const bypassConfig: FormSecurityConfig = {
+      ...config,
+      testBypassToken: "gtm-conversion-tester-token-value",
+    };
+    const { dependencies, delivered } = buildDependencies({
+      getConfig: () => bypassConfig,
+      checkIp: vi.fn(async () => ({
+        allowed: false,
+        available: true,
+        retryAfter: 60,
+      })),
+    });
+    const request = makeRequest(validBody, {
+      "x-form-test-token": "wrong-token",
+    });
+    const response = await submit(request, dependencies);
+    expect(response.status).toBe(429);
+    expect(delivered).toHaveLength(0);
+  });
+
+  it("lets the 'Bill Testing' name skip BotID and duplicate protection but keeps IP rate limiting", async () => {
+    const { dependencies, delivered, events } = buildDependencies();
+    const billBody = { ...validBody, fullName: "Bill Testing" };
+
+    const first = await submit(makeRequest(billBody), dependencies);
+    expect(first.status).toBe(200);
+    expect(await first.json()).toEqual({ ok: true, redirect: "/thank-you" });
+
+    const second = await submit(makeRequest(billBody), dependencies);
+    expect(second.status).toBe(200);
+    expect(await second.json()).toEqual({ ok: true, redirect: "/thank-you" });
+
+    expect(delivered).toHaveLength(2);
+    expect(dependencies.verify).not.toHaveBeenCalled();
+    expect(dependencies.checkIdentifier).not.toHaveBeenCalled();
+    expect(dependencies.reserve).not.toHaveBeenCalled();
+    expect(dependencies.checkIp).toHaveBeenCalledTimes(2);
+    expect(events.map((event) => event.decision)).toEqual([
+      "test_bypass",
+      "test_bypass",
+    ]);
+  });
+
+  it("matches the bypass name case-insensitively and with extra whitespace", async () => {
+    const { dependencies, delivered } = buildDependencies();
+    const billBody = { ...validBody, fullName: "  bill   TESTING  " };
+    expect((await submit(makeRequest(billBody), dependencies)).status).toBe(
+      200,
+    );
+    expect(delivered).toHaveLength(1);
+  });
+
+  it("still enforces the IP rate limit for the bypass name", async () => {
+    const { dependencies, delivered } = buildDependencies({
+      checkIp: vi.fn(async () => ({
+        allowed: false,
+        available: true,
+        retryAfter: 60,
+      })),
+    });
+    const billBody = { ...validBody, fullName: "Bill Testing" };
+    const response = await submit(makeRequest(billBody), dependencies);
+    expect(response.status).toBe(429);
+    expect(delivered).toHaveLength(0);
+  });
+
+  it("does not treat a similar but non-matching name as a bypass", async () => {
+    const { dependencies, delivered } = buildDependencies({
+      verify: vi.fn(async (): Promise<ProviderResult> => ({
+        status: "bot",
+        latencyMs: 1,
+      })),
+    });
+    const almostBody = { ...validBody, fullName: "Bill Testingg" };
+    expect((await submit(makeRequest(almostBody), dependencies)).status).toBe(
+      403,
+    );
     expect(delivered).toHaveLength(0);
   });
 

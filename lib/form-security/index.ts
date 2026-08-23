@@ -1,6 +1,6 @@
 import "server-only";
 
-export { createDuplicateFingerprint, hashIdentifier } from "./crypto";
+export { createDuplicateFingerprint, hashIdentifier, safeTokenMatch } from "./crypto";
 export { getFormSecurityConfig } from "./config";
 export { processFormSubmission } from "./handler";
 export { logFormSecurityEvent } from "./logger";
@@ -8,6 +8,7 @@ export { verifyBotAttestation } from "./provider";
 export {
   extractTrustedClientIp,
   hasOversizedContentLength,
+  hasValidTestBypassToken,
   readJsonWithLimit,
   RequestSecurityError,
   validateContentType,

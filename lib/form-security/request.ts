@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { FormSecurityConfig } from "./config";
+import { safeTokenMatch } from "./crypto";
 
 export class RequestSecurityError extends Error {
   constructor(
@@ -88,6 +89,20 @@ export function validateOrigin(
   )
     return true;
   return false;
+}
+
+// Lets one known, out-of-band tester (GTM/Google Ads conversion verification)
+// skip BotID, rate limiting, and duplicate protection for a single request.
+// Never gate this on client-controlled signals (query params, cookies) --
+// only a secret held server-side and supplied via header can pass.
+export function hasValidTestBypassToken(
+  request: Request,
+  config: FormSecurityConfig,
+): boolean {
+  if (!config.testBypassToken) return false;
+  const header = request.headers.get("x-form-test-token");
+  if (!header) return false;
+  return safeTokenMatch(config.testBypassToken, header);
 }
 
 export function extractTrustedClientIp(

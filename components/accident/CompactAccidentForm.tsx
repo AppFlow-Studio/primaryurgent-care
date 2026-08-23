@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { pushEnhancedConversion } from "@/lib/gtag";
 import { getAttributionData } from "@/lib/gclid";
+import { getFormTestBypassHeaders } from "@/lib/form-security/client-test-bypass";
 import { useConsent } from "@/components/ConsentProvider";
 import { Shield, Clock, FileText, Lock } from "lucide-react";
 import {
@@ -67,7 +68,10 @@ const CompactAccidentForm: React.FC<CompactAccidentFormProps> = ({
 
       const response = await fetch("/api/forms/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...getFormTestBypassHeaders(),
+        },
         body: JSON.stringify({
           fullName: formData.fullName,
           email: formData.email,

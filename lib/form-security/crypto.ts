@@ -1,6 +1,6 @@
 import "server-only";
 
-import { createHmac } from "node:crypto";
+import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 
 export function hashIdentifier(
   secret: string,
@@ -34,4 +34,13 @@ export function createDuplicateFingerprint(
     ),
   ].join("\0");
   return hashIdentifier(secret, "duplicate", canonical);
+}
+
+// Compares fixed-length digests instead of the raw strings so a mismatched
+// candidate length can't be inferred from response timing.
+export function safeTokenMatch(secret: string, candidate: string): boolean {
+  if (!secret || !candidate) return false;
+  const expected = createHash("sha256").update(secret).digest();
+  const actual = createHash("sha256").update(candidate).digest();
+  return timingSafeEqual(expected, actual);
 }

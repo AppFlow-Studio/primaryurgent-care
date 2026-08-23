@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { FormSecurityConfig } from "@/lib/form-security/config";
 import {
   extractTrustedClientIp,
+  hasValidTestBypassToken,
   validateOrigin,
 } from "@/lib/form-security/request";
 
@@ -84,5 +85,54 @@ describe("request integrity", () => {
     } finally {
       if (originalVercel) process.env.VERCEL = originalVercel;
     }
+  });
+});
+
+describe("test bypass token", () => {
+  const withToken: FormSecurityConfig = {
+    ...config,
+    testBypassToken: "correct-horse-battery-staple-token",
+  };
+
+  it("is disabled when no token is configured", () => {
+    expect(
+      hasValidTestBypassToken(
+        new Request("https://primaryuc.com/api", {
+          headers: { "x-form-test-token": "anything" },
+        }),
+        config,
+      ),
+    ).toBe(false);
+  });
+
+  it("rejects a request with no header even when a token is configured", () => {
+    expect(
+      hasValidTestBypassToken(
+        new Request("https://primaryuc.com/api"),
+        withToken,
+      ),
+    ).toBe(false);
+  });
+
+  it("rejects an incorrect header value", () => {
+    expect(
+      hasValidTestBypassToken(
+        new Request("https://primaryuc.com/api", {
+          headers: { "x-form-test-token": "wrong-token" },
+        }),
+        withToken,
+      ),
+    ).toBe(false);
+  });
+
+  it("accepts the exact configured token", () => {
+    expect(
+      hasValidTestBypassToken(
+        new Request("https://primaryuc.com/api", {
+          headers: { "x-form-test-token": withToken.testBypassToken! },
+        }),
+        withToken,
+      ),
+    ).toBe(true);
   });
 });

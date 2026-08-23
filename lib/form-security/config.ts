@@ -20,6 +20,7 @@ export interface FormSecurityConfig {
   allowedOrigins: Set<string>;
   providerTimeoutMs: number;
   developmentBotIdBypass?: "HUMAN" | "BAD-BOT" | "GOOD-BOT";
+  testBypassToken?: string;
 }
 
 function readBoolean(name: string, fallback: boolean): boolean {
@@ -113,6 +114,13 @@ export function getFormSecurityConfig(): FormSecurityConfig {
     throw new Error("FORM_BOTID_DEV_BYPASS is not permitted in production");
   }
 
+  const testBypassToken = process.env.FORM_TEST_BYPASS_TOKEN || undefined;
+  if (testBypassToken && testBypassToken.length < 24) {
+    throw new Error(
+      "FORM_TEST_BYPASS_TOKEN must contain at least 24 characters",
+    );
+  }
+
   return {
     isProduction,
     enabled,
@@ -132,5 +140,6 @@ export function getFormSecurityConfig(): FormSecurityConfig {
     providerTimeoutMs,
     developmentBotIdBypass: developmentBotIdBypass as
       "HUMAN" | "BAD-BOT" | "GOOD-BOT" | undefined,
+    testBypassToken,
   };
 }

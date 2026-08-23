@@ -4,6 +4,7 @@ import Image from "next/image";
 import { trackFormSubmission, pushEnhancedConversion } from "../../lib/gtag";
 import { getAttributionData } from "@/lib/gclid";
 import { useConsent } from "@/components/ConsentProvider";
+import { getFormTestBypassHeaders } from "@/lib/form-security/client-test-bypass";
 import {
   getValidatedPhoneNumber,
   formatUSPhoneNumber,
@@ -160,7 +161,10 @@ export default function LawyerRecordsForm() {
       const attribution = getAttributionData();
       const response = await fetch("/api/forms/records", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...getFormTestBypassHeaders(),
+        },
         body: JSON.stringify({
           lawFirm: form.lawFirm,
           email: form.email,

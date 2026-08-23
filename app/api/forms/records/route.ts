@@ -18,6 +18,7 @@ export async function POST(request: Request): Promise<Response> {
         recordsRequest.records.join("|"),
       ],
     }),
+    getFullName: (recordsRequest) => recordsRequest.patientFullName,
     dependencies: { deliver: deliverRecordsRequest },
   });
 }

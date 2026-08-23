@@ -10,7 +10,8 @@ export type FormSecurityDecision =
     }
   | { decision: "blocked_origin" }
   | { decision: "duplicate" }
-  | { decision: "configuration_error" };
+  | { decision: "configuration_error" }
+  | { decision: "test_bypass" };
 
 export type SecurityEventDecision =
   | FormSecurityDecision["decision"]

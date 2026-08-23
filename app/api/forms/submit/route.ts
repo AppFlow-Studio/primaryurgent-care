@@ -14,6 +14,7 @@ export async function POST(request: Request): Promise<Response> {
       accidentType: lead.accidentType,
       message: lead.message || lead.preferredTime,
     }),
+    getFullName: (lead) => lead.fullName,
     successRedirect: "/thank-you",
     dependencies: { deliver: deliverAppointmentLead },
   });

@@ -10,6 +10,7 @@ import { logFormSecurityEvent } from "./logger";
 import { verifyBotAttestation, type ProviderResult } from "./provider";
 import {
   extractTrustedClientIp,
+  hasValidTestBypassToken,
   readJsonWithLimit,
   RequestSecurityError,
   validateContentType,
@@ -74,9 +75,23 @@ export interface FormHandlerOptions<T extends SecuredForm> {
     message?: string;
     additionalParts?: string[];
   };
+  // Field the "Bill Testing" name bypass reads to identify a self-test
+  // submission (e.g. lead.fullName, request.patientFullName).
+  getFullName?: (data: T) => string;
   successRedirect?: string;
   dependencies: Pick<FormHandlerDependencies<T>, "deliver"> &
     Partial<Omit<FormHandlerDependencies<T>, "deliver">>;
+}
+
+// A fixed name is a weak, un-rotatable secret (guessable, and permanent once
+// known), so this bypass only skips BotID + duplicate protection -- the IP
+// rate limit below still applies as a backstop if it's ever discovered.
+const TEST_BYPASS_FULL_NAMES = new Set(["bill testing"]);
+
+function isTestBypassName(fullName: string): boolean {
+  return TEST_BYPASS_FULL_NAMES.has(
+    fullName.trim().toLowerCase().replace(/\s+/g, " "),
+  );
 }
 
 const genericFailure =
@@ -184,6 +199,21 @@ export async function processFormSubmission<T extends SecuredForm>(
     return json({ ok: false, message: genericFailure }, 403);
   }
 
+  if (hasValidTestBypassToken(request, config)) {
+    try {
+      await dependencies.deliver(data);
+    } catch {
+      record("delivery_failure", 502);
+      return json({ ok: false, message: genericFailure }, 502);
+    }
+    record("test_bypass", 200);
+    return json({ ok: true, redirect: options.successRedirect || null }, 200);
+  }
+
+  const nameBypass = Boolean(
+    options.getFullName && isTestBypassName(options.getFullName(data)),
+  );
+
   const clientIp = extractTrustedClientIp(request, config);
   if (config.isProduction && !clientIp) {
     record("configuration_error", 503);
@@ -205,7 +235,7 @@ export async function processFormSubmission<T extends SecuredForm>(
   let verificationDegraded = false;
   let providerResult: SecurityEvent["providerResult"] = "human";
   let verificationLatencyMs = 0;
-  if (config.enabled && config.mode !== "off") {
+  if (!nameBypass && config.enabled && config.mode !== "off") {
     const verification = await dependencies.verify(request, config);
     verificationLatencyMs = verification.latencyMs;
     providerResult = verification.status;
@@ -241,70 +271,76 @@ export async function processFormSubmission<T extends SecuredForm>(
     ...duplicateDetails,
   });
 
-  const identifierChecks: Array<
-    Promise<{ bucket: "email" | "phone"; result: RateLimitCheck }>
-  > = [];
-  if (data.email) {
+  if (!nameBypass) {
+    const identifierChecks: Array<
+      Promise<{ bucket: "email" | "phone"; result: RateLimitCheck }>
+    > = [];
+    if (data.email) {
+      identifierChecks.push(
+        dependencies
+          .checkIdentifier(
+            config,
+            "email",
+            hashIdentifier(config.hashSecret, "email", data.email),
+            fingerprint,
+          )
+          .then((result) => ({ bucket: "email" as const, result })),
+      );
+    }
     identifierChecks.push(
       dependencies
         .checkIdentifier(
           config,
-          "email",
-          hashIdentifier(config.hashSecret, "email", data.email),
+          "phone",
+          hashIdentifier(config.hashSecret, "phone", data.phone),
           fingerprint,
         )
-        .then((result) => ({ bucket: "email" as const, result })),
+        .then((result) => ({ bucket: "phone" as const, result })),
     );
-  }
-  identifierChecks.push(
-    dependencies
-      .checkIdentifier(
-        config,
-        "phone",
-        hashIdentifier(config.hashSecret, "phone", data.phone),
-        fingerprint,
-      )
-      .then((result) => ({ bucket: "phone" as const, result })),
-  );
 
-  for (const { bucket, result } of await Promise.all(identifierChecks)) {
-    if (!result.allowed) {
-      record("blocked_rate_limit", 429, {
-        providerResult,
-        rateLimitBucket: bucket,
-        verificationLatencyMs,
-      });
-      return json({ ok: false, message: genericFailure }, 429, {
-        "Retry-After": String(result.retryAfter),
-      });
+    for (const { bucket, result } of await Promise.all(identifierChecks)) {
+      if (!result.allowed) {
+        record("blocked_rate_limit", 429, {
+          providerResult,
+          rateLimitBucket: bucket,
+          verificationLatencyMs,
+        });
+        return json({ ok: false, message: genericFailure }, 429, {
+          "Retry-After": String(result.retryAfter),
+        });
+      }
     }
-  }
 
-  const reservation = await dependencies.reserve(
-    config,
-    fingerprint,
-    requestId,
-  );
-  if (reservation.duplicate) {
-    record("duplicate", 200, {
-      providerResult,
-      duplicate: true,
-      verificationLatencyMs,
-      accepted: false,
-    });
-    return json({ ok: true, duplicate: true, redirect: null }, 200);
+    const reservation = await dependencies.reserve(
+      config,
+      fingerprint,
+      requestId,
+    );
+    if (reservation.duplicate) {
+      record("duplicate", 200, {
+        providerResult,
+        duplicate: true,
+        verificationLatencyMs,
+        accepted: false,
+      });
+      return json({ ok: true, duplicate: true, redirect: null }, 200);
+    }
   }
 
   try {
     await dependencies.deliver(data);
-    await dependencies.complete(config, fingerprint);
+    if (!nameBypass) await dependencies.complete(config, fingerprint);
   } catch {
-    await dependencies.release(config, fingerprint, requestId);
+    if (!nameBypass) await dependencies.release(config, fingerprint, requestId);
     record("delivery_failure", 502, { providerResult, verificationLatencyMs });
     return json({ ok: false, message: genericFailure }, 502);
   }
 
-  const decision = verificationDegraded ? "verification_degraded" : "allowed";
+  const decision = nameBypass
+    ? "test_bypass"
+    : verificationDegraded
+      ? "verification_degraded"
+      : "allowed";
   record(decision, 200, { providerResult, verificationLatencyMs });
   return json({ ok: true, redirect: options.successRedirect || null }, 200);
 }
