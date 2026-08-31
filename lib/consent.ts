@@ -162,3 +162,52 @@ export function pushConsentUpdate(consent: ConsentState): void {
 export function hasConsent(consent: ConsentState, category: ConsentCategory): boolean {
   return consent[category] === true;
 }
+
+// --- Consent Mode default -----------------------------------------------------
+//
+// The default has to be written into the document before GTM or gtag load, so
+// it is decided at build time and is identical for every visitor.
+//
+// It is deliberately NOT personalised from the consent cookie. Reading cookies
+// here would opt the entire route tree out of static rendering: measured on
+// this repo at 20 prerendered pages turning dynamic, which is far too high a
+// price for the small timing gain it buys.
+//
+// A returning visitor's stored choice is re-applied by ConsentProvider on
+// mount. wait_for_update tells Google's tags to hold their opening hits long
+// enough for that to land first.
+
+// Countries requiring opt-in before storage. Everywhere else takes the granted
+// default below.
+export const CONSENT_OPT_IN_REGIONS = [
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR',
+  'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
+  'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH',
+] as const;
+
+export function buildConsentDefaultScript(): string {
+  const denied = JSON.stringify({
+    ...buildGtagConsentPayload(DEFAULT_CONSENT),
+    region: CONSENT_OPT_IN_REGIONS,
+    wait_for_update: 500,
+  });
+  const granted = JSON.stringify({
+    ...buildGtagConsentPayload(ALL_GRANTED_CONSENT),
+    wait_for_update: 500,
+  });
+
+  // Region-scoped default first, then the global fallback. Google applies the
+  // most specific match, so opt-in countries keep the strict default and the
+  // banner decides for them.
+  //
+  // url_passthrough keeps the Google click id on the URL when storage is
+  // unavailable, so an ad click can still be tied to the form it produces
+  // rather than being lost at the first navigation.
+  return (
+    "window.dataLayer = window.dataLayer || [];\n" +
+    "function gtag(){dataLayer.push(arguments);}\n" +
+    "gtag('consent', 'default', " + denied + ");\n" +
+    "gtag('consent', 'default', " + granted + ");\n" +
+    "gtag('set', 'url_passthrough', true);\n"
+  );
+}
