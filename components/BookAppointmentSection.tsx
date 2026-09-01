@@ -7,6 +7,13 @@ import { usePathname } from "next/navigation";
 const BookAppointmentSection = () => {
   const pathname = usePathname();
   const isAccidentPage = pathname?.startsWith('/car-accident') || pathname === '/car-accident-injury-clinic';
+  // Imaging pages carry paid traffic for scans. Most of those visitors are not
+  // accident patients, but the ones who are only become visible if they answer
+  // the accident field, so it gets asked as a question rather than a category.
+  const isImagingPage =
+    pathname?.startsWith('/emergency-room') ||
+    pathname === '/service/ct-scan' ||
+    pathname === '/service/nuclear-scans';
   const title = isAccidentPage
     ? 'Book Your Same-Day Car Accident Exam'
     : 'Your Health Matters — Book an Appointment Today';
@@ -40,7 +47,10 @@ const BookAppointmentSection = () => {
           </div>
           {/* Right: Form */}
           <div className="flex justify-center items-start w-full h-full">
-            <BookAppointmentForm title={isAccidentPage ? 'Request Same-Day Accident Exam' : 'Book An Appointment'} />
+            <BookAppointmentForm
+              title={isAccidentPage ? 'Request Same-Day Accident Exam' : 'Book An Appointment'}
+              accidentFieldLabel={isImagingPage ? 'Was this after an accident?' : undefined}
+            />
           </div>
         </div>
       </section>    
