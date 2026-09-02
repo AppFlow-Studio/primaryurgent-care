@@ -56,6 +56,7 @@ const BookAppointmentForm = ({
   initialLastName = "",
   initialPhone = "",
   initialType = "",
+  accidentFieldLabel,
 }: {
   title?: string;
   bgColor?: string;
@@ -64,6 +65,11 @@ const BookAppointmentForm = ({
   initialLastName?: string;
   initialPhone?: string;
   initialType?: string;
+  // Lets a page ask the accident question in its own words. On a page about
+  // scans, "Type of Accident (If Applicable)" reads like paperwork and gets
+  // skipped, which loses the one field that tells us a scan booking is really
+  // an accident patient.
+  accidentFieldLabel?: string;
 }) => {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -299,8 +305,12 @@ const BookAppointmentForm = ({
             render={({ field }) => (
               <FormItem className="w-full h-full overflow-hidden pb-5">
                 <FormLabel className={`font-semibold ${textColor} text-base`}>
-                  Type of Accident{" "}
-                  <span className="text-xs text-gray-200">(If Applicable)</span>
+                  {accidentFieldLabel ?? (
+                    <>
+                      Type of Accident{" "}
+                      <span className="text-xs text-gray-200">(If Applicable)</span>
+                    </>
+                  )}
                 </FormLabel>
                 <FormControl>
                   <Select
