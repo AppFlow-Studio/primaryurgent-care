@@ -5,6 +5,7 @@ import NavBar from "@/components/navbar";
 import Footer from "@/components/Footer";
 import BookAppointmentSection from "@/components/BookAppointmentSection";
 import Script from "next/script";
+import { buildConsentDefaultScript } from "@/lib/consent";
 import GclidCapture from "@/components/GclidCapture";
 import { ConsentProvider } from "@/components/ConsentProvider";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
@@ -95,24 +96,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={interTight.className} suppressHydrationWarning={true}>
       <head>
-        {/* Google Consent Mode v2 - default state, must run before GTM/gtag load */}
+        {/* Google Consent Mode v2 - default state, must run before GTM/gtag load.
+            Opt-in countries default to denied, everywhere else to granted.
+            A returning visitor's stored choice is applied by ConsentProvider on
+            mount; wait_for_update holds the opening hits until it lands. This is
+            deliberately static: reading the consent cookie here would opt the
+            whole route tree out of static rendering. */}
         <Script
           id="consent-default"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('consent', 'default', {
-                ad_storage: 'denied',
-                analytics_storage: 'denied',
-                ad_user_data: 'denied',
-                ad_personalization: 'denied',
-                functionality_storage: 'denied',
-                personalization_storage: 'denied',
-                security_storage: 'granted'
-              });
-            `,
+            __html: buildConsentDefaultScript(),
           }}
         />
         {/* Google tag (gtag.js) - GA4 */}
