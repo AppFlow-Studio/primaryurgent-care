@@ -8,6 +8,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 const EmergencyRoomPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params
   const service = services.find(service => service.slug === slug)
+  const faqs = service && 'faqs' in service ? (service.faqs as { question: string; answer: string }[]) : []
   
   // Structured data for emergency room services
   const EmergencyRoomServiceJsonLd = () => (
@@ -32,10 +33,31 @@ const EmergencyRoomPage = async ({ params }: { params: Promise<{ slug: string }>
       }}
     />
   );
-  
+
+  // FAQPage schema. The queries reaching these pages are question-shaped, and this is
+  // how Google is told the page carries the answers. Only emitted when the service
+  // actually has questions, because empty FAQ markup is worse than none.
+  const FaqJsonLd = () => (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+          })),
+        })
+      }}
+    />
+  );
+
   return (
     <main className="w-full bg-[#FAFAFA] min-h-screen max-w-8xl mx-auto">
       <EmergencyRoomServiceJsonLd />
+      {faqs.length > 0 && <FaqJsonLd />}
       <Breadcrumb items={[
         { name: 'Home', href: '/' },
         { name: 'Emergency Room', href: '/emergency-room' },
@@ -93,6 +115,30 @@ const EmergencyRoomPage = async ({ params }: { params: Promise<{ slug: string }>
           </div>
         </Reveal>
       </div>
+
+      {/* Common questions.
+
+          These are not invented. Each one is a query Search Console shows people using
+          to reach this page, where the page then ranked 8th to 24th and earned no
+          clicks, because it explained what the scan is and never said whether we do it.
+          The heading has to match the question for Google to treat the answer as one. */}
+      {faqs.length > 0 && (
+        <div className='max-w-7xl mx-auto w-full mt-16'>
+          <h2 className='text-2xl md:text-3xl font-bold text-black mb-8'>
+            Common questions about {service?.title} at urgent care
+          </h2>
+          <div className='flex flex-col gap-8'>
+            {faqs.map((faq) => (
+              <Reveal key={faq.question} className='w-full'>
+                <div className='flex flex-col gap-3'>
+                  <h3 className='text-lg md:text-xl font-semibold text-black'>{faq.question}</h3>
+                  <p className='md:text-lg text-md text-gray-600'>{faq.answer}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      )}
       </div>
     </main>
   )
