@@ -34,9 +34,13 @@ const EmergencyRoomPage = async ({ params }: { params: Promise<{ slug: string }>
     />
   );
 
-  // FAQPage schema. The queries reaching these pages are question-shaped, and this is
-  // how Google is told the page carries the answers. Only emitted when the service
-  // actually has questions, because empty FAQ markup is worse than none.
+  // FAQPage schema.
+  //
+  // Google deprecated FAQ rich results on 2026-05-07, so this no longer produces the
+  // expandable answers in Search. It is kept because the markup is still valid
+  // schema.org, Google parses it without penalty, and other crawlers and AI retrieval
+  // systems do read it. The ranking work is done by the visible questions below, not
+  // by this. Only emitted when the service actually has questions.
   const FaqJsonLd = () => (
     <script
       type="application/ld+json"
@@ -121,11 +125,14 @@ const EmergencyRoomPage = async ({ params }: { params: Promise<{ slug: string }>
           These are not invented. Each one is a query Search Console shows people using
           to reach this page, where the page then ranked 8th to 24th and earned no
           clicks, because it explained what the scan is and never said whether we do it.
-          The heading has to match the question for Google to treat the answer as one. */}
+
+          Every figure in the answers is taken from the costs copy on the same page, and
+          every claim is about what this clinic has rather than what competitors lack,
+          because the latter cannot be substantiated. */}
       {faqs.length > 0 && (
         <div className='max-w-7xl mx-auto w-full mt-16'>
           <h2 className='text-2xl md:text-3xl font-bold text-black mb-8'>
-            Common questions about {service?.title} at urgent care
+            {service?.title} at urgent care: common questions
           </h2>
           <div className='flex flex-col gap-8'>
             {faqs.map((faq) => (
