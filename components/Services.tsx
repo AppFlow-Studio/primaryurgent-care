@@ -13,6 +13,31 @@ export const services = [
     urgentCareAdvantage: "Our urgent care centers are equipped with the same high-quality 1.5T MRI technology found in major hospitals and imaging centers, but with the added advantage of significantly reduced wait times and immediate availability for urgent cases. Unlike traditional hospital settings where MRI appointments can take weeks to schedule and patients often wait 4-6 hours in crowded emergency rooms, our urgent care model provides walk-in access to this advanced diagnostic technology. For patients experiencing acute back pain, suspected disc herniations, sports injuries, or neurological symptoms, our 1.5T MRI offers immediate diagnostic clarity without the lengthy delays associated with hospital-based imaging. Our board-certified radiologists are available on-site to provide STAT interpretations within 3 hours, ensuring that patients receive timely results when minutes matter. The convenience of our urgent care setting means that patients can receive the same diagnostic quality as a hospital MRI department while avoiding the chaos, long waits, and higher costs typically associated with emergency room visits.",
     costs: "The cost advantage of receiving a 1.5T MRI at our urgent care centers is substantial, with typical pricing ranging from $300 compared to hospital costs of $1,200-2,500 for the same diagnostic procedure. This represents a savings of 50-70% compared to traditional hospital-based MRI services, making advanced diagnostic imaging accessible to patients without the financial burden of hospital pricing. Our urgent care centers accept most major insurance plans, and patients typically experience significantly lower copays and deductibles compared to hospital settings. For patients without insurance, we offer transparent, upfront pricing with no hidden fees, and we work with patients to establish affordable payment plans when needed. The cost savings extend beyond the procedure itself, as our urgent care model eliminates the additional emergency room facility fees, physician fees, and other charges that can add hundreds or thousands of dollars to a hospital-based MRI.",
     whyChooseUs: "Choosing our urgent care centers for your 1.5T MRI means accessing hospital-level diagnostic quality with the convenience and efficiency of urgent care. Unlike traditional hospitals where patients often face 4-6 hour wait times in crowded emergency rooms, our streamlined process gets you in and out quickly while providing the same diagnostic accuracy. Our board-certified radiologists are the same specialists who read studies at major hospitals, ensuring you receive expert interpretation of your results. The immediate availability of our 1.5T MRI technology means you can get answers to urgent medical questions without waiting weeks for an appointment or enduring lengthy emergency room visits. For patients experiencing acute back pain, sports injuries, neurological symptoms, or other conditions requiring immediate imaging, our rapid access to high-quality MRI can make the difference between timely treatment and prolonged suffering.",
+    // Verbatim Search Console questions for this page, which ranked 10-24 on all of them
+    // and earned zero clicks. Most ask about the emergency room, because that is where
+    // people assume an urgent MRI has to happen. Figures match the costs copy below.
+    faqs: [
+      {
+        question: "Can you get an MRI at the emergency room?",
+        answer: "Emergency rooms prioritise life-threatening cases, so a non-critical MRI is often scheduled for another day. Our 1.5T MRI is on site and available the same day in Palm Beach County, usually in and out in under 30 minutes, without the emergency room wait or facility fees.",
+      },
+      {
+        question: "Where can I get an emergency MRI near me?",
+        answer: "Primary & Urgent Care Center offers same-day 1.5T MRI across Palm Beach County, at Lake Worth, Lantana, Palm Springs and Royal Palm Beach. No referral is needed. Call and we will confirm the soonest scan time at your nearest clinic.",
+      },
+      {
+        question: "Can urgent care do an MRI?",
+        answer: "Ours can. We operate a 1.5T MRI on site, the same field strength used in hospital imaging departments, read by board-certified radiologists with STAT interpretations available within about three hours.",
+      },
+      {
+        question: "How much does an MRI cost without insurance?",
+        answer: "Our MRI pricing starts around $300, against typical hospital costs of $1,200 to $2,500 for the same scan. We accept most major insurance, and for patients paying themselves we quote upfront with no hidden fees and can arrange a payment plan.",
+      },
+      {
+        question: "Can I get an MRI after a car accident?",
+        answer: "Yes. An MRI shows soft tissue damage that X-rays cannot, which matters for whiplash, disc injuries and joint damage after a crash. We also provide the exam documentation your insurer or attorney may require, and Florida's PIP rules give you 14 days from the accident to be seen.",
+      },
+    ],
     slug: '1-5t-mri',
     metaTitle: '1.5T MRI | Same-Day MRI Scan Palm Beach County | Urgent Care MRI Near Me',
     metaDescription: 'Get a same-day 1.5T MRI scan at our Palm Beach County urgent care. Walk-in MRI for spine, brain, and joint injuries. No appointment needed. Fast, affordable, and expert imaging. Hospital-quality MRI without the wait or high cost.',
@@ -38,6 +63,31 @@ export const services = [
     urgentCareAdvantage: "Our urgent care centers feature state-of-the-art multi-slice CT technology that provides the same diagnostic quality as major hospitals, but with the added benefits of immediate availability and significantly reduced wait times. Unlike traditional hospital settings where CT scans often require lengthy appointment scheduling or involve 6-8 hour waits in crowded emergency rooms, our urgent care model provides walk-in access to this critical diagnostic technology. For patients experiencing trauma, chest pain, abdominal emergencies, or other acute conditions requiring immediate imaging, our CT scanner offers rapid diagnostic capabilities without the chaos and delays associated with hospital emergency departments. Our board-certified radiologists are available to provide same-day interpretations, ensuring that patients receive timely results when every minute counts. The convenience of our urgent care setting means that patients can receive hospital-level CT imaging while avoiding the stress, long waits, and higher costs typically associated with emergency room visits.",
     costs: "The cost advantage of receiving a CT scan at our urgent care centers is significant, with typical pricing ranging from $200 compared to hospital costs of $800-1,500 for the same diagnostic procedure. This represents a savings of 50-60% compared to traditional hospital-based CT services, making this essential diagnostic tool accessible to patients without the financial burden of hospital pricing. Our urgent care centers accept most major insurance plans, and patients typically experience lower copays and deductibles compared to hospital settings. For patients without insurance, we offer transparent, upfront pricing with no hidden fees, and we work with patients to establish affordable payment plans when needed. Emergency cases receive priority scheduling at no additional cost, ensuring that urgent medical needs are addressed promptly without financial penalty.",
     whyChooseUs: "Choosing our urgent care centers for your CT scan means accessing hospital-level diagnostic quality with the convenience and efficiency of urgent care. Unlike traditional hospitals where patients often face 6-8 hour wait times in crowded emergency rooms, our streamlined process provides rapid access to advanced CT imaging while maintaining the same diagnostic accuracy. Our CT scans are read by the same board-certified radiologists who work at major hospitals, ensuring you receive expert interpretation of your results. The immediate availability of our multi-slice CT technology means you can get answers to urgent medical questions without waiting for appointments or enduring lengthy emergency room visits. For patients experiencing trauma, chest pain, abdominal emergencies, or other acute conditions, our rapid access to high-quality CT imaging can make the difference between timely treatment and prolonged suffering.",
+    // Questions taken verbatim from Search Console, 2026-08-03..08-30. This page ranked
+    // 8-15 for all of them and earned zero clicks, because it explains what a CT scan is
+    // and never says whether we can do one. Figures match the costs copy on this page.
+    faqs: [
+      {
+        question: "Can urgent care do a CT scan?",
+        answer: "Ours can. Primary & Urgent Care Center has a multi-slice CT scanner on site in Palm Beach County, so your scan and your exam happen in one visit rather than at a separate imaging centre. Scans are read by board-certified radiologists, the same specialists who read studies at major hospitals, and results are typically available the same day.",
+      },
+      {
+        question: "Do urgent cares have CT scanners?",
+        answer: "Not all of them do, and many offer X-ray only. We have CT on site alongside 1.5T MRI, ultrasound and X-ray, so if you need a scan we can do it here rather than sending you elsewhere.",
+      },
+      {
+        question: "How much does a CT scan cost at urgent care?",
+        answer: "Our CT pricing starts around $200, against typical hospital costs of $800 to $1,500 for the same scan. That is a saving of roughly 50 to 60 percent. We accept most major insurance, pricing is quoted upfront, and there are no emergency room facility fees. Call for a quote for your specific scan.",
+      },
+      {
+        question: "Do I need a referral for a CT scan?",
+        answer: "No referral is needed. Call us and we will confirm the soonest available scan time at the clinic nearest you, across Lake Worth, Lantana, Palm Springs and Royal Palm Beach.",
+      },
+      {
+        question: "Can I get a CT scan after a car accident?",
+        answer: "Yes, and being examined promptly matters. Florida's PIP rules require an initial medical visit within 14 days of a crash to keep your Personal Injury Protection benefits. We provide the exam, the imaging and the documentation your claim may need, in one visit.",
+      },
+    ],
     slug: 'ct-scan',
     metaTitle: 'CT Scan | Same-Day CT Imaging Palm Beach County | Urgent Care CT Near Me',
     metaDescription: 'Walk in for a same-day CT scan at our Palm Beach County urgent care. Fast, low-dose CT imaging for trauma, chest pain, and emergencies. No appointment needed. Hospital-quality CT with immediate results and affordable pricing.',
@@ -86,6 +136,31 @@ export const services = [
     urgentCareAdvantage: "Our urgent care centers feature portable bedside ultrasound technology that provides immediate diagnostic capabilities without the lengthy appointment scheduling typically associated with hospital-based ultrasound services. Unlike traditional hospital settings where ultrasound examinations often require weeks of advance scheduling or involve lengthy waits in crowded emergency rooms, our portable ultrasound equipment allows for immediate evaluation of patients with urgent medical needs. For patients experiencing abdominal pain, pregnancy concerns, vascular issues, or other conditions requiring immediate imaging, our bedside ultrasound provides rapid diagnostic capabilities without the chaos and delays associated with hospital emergency departments. The portability of our ultrasound equipment means that examinations can be performed at the patient's bedside, eliminating the need for patient transfers and reducing the risk of complications for patients with mobility issues or acute medical conditions. Our healthcare providers are trained to perform and interpret ultrasound examinations, ensuring that patients receive immediate results and prompt treatment decisions.",
     costs: "The cost advantage of receiving an ultrasound at our urgent care centers is significant, with typical pricing ranging from $150 compared to hospital costs of $400-800 for the same diagnostic procedure. This represents a savings of 60-75% compared to traditional hospital-based ultrasound services, making this essential diagnostic tool highly accessible to patients without the financial burden of hospital pricing. Our urgent care centers accept most major insurance plans, and patients typically experience lower copays and deductibles compared to hospital settings. For patients without insurance, we offer transparent, upfront pricing with no hidden fees, and we work with patients to establish affordable payment plans when needed. Emergency evaluations are often covered by insurance with minimal copay, ensuring that patients with urgent medical needs can receive prompt diagnostic imaging without financial barriers.",
     whyChooseUs: "Choosing our urgent care centers for your ultrasound means accessing high-quality diagnostic imaging with immediate results and significant cost savings. Unlike traditional hospitals where patients often face lengthy appointment scheduling or lengthy waits in crowded emergency rooms, our portable bedside ultrasound provides immediate diagnostic capabilities without the delays associated with hospital-based ultrasound services. Our healthcare providers are trained to perform and interpret ultrasound examinations, ensuring that patients receive immediate results and prompt treatment decisions. The real-time nature of ultrasound imaging allows our providers to make immediate diagnostic assessments and treatment recommendations, often within minutes of the examination. For patients experiencing abdominal pain, pregnancy concerns, vascular issues, or other conditions requiring immediate imaging, our rapid access to high-quality ultrasound technology can make the difference between timely treatment and prolonged suffering.",
+    // This page ranks 2.6 for "walk in ultrasound near me" and 32-42 for "urgent care
+    // ultrasound" and "emergency ultrasound near me". Same page, same intent; the
+    // language it uses is the difference, so the questions below carry both.
+    faqs: [
+      {
+        question: "Does urgent care do ultrasounds?",
+        answer: "Ours does. Primary & Urgent Care Center provides same-day ultrasound on site in Palm Beach County, alongside CT, 1.5T MRI and X-ray, so your scan and your exam happen in the same visit.",
+      },
+      {
+        question: "Where can I get a walk-in ultrasound near me?",
+        answer: "We offer same-day ultrasound across Palm Beach County, at Lake Worth, Lantana, Palm Springs and Royal Palm Beach. Calling ahead is quicker, and we will confirm the soonest available time at your nearest clinic.",
+      },
+      {
+        question: "Can I get an emergency ultrasound without going to the ER?",
+        answer: "For soft tissue injuries, abdominal pain and similar urgent questions, our on-site ultrasound gives you an answer without an emergency room wait or facility fee. Anything genuinely life-threatening should still go to an emergency room or call 911.",
+      },
+      {
+        question: "How much does an ultrasound cost?",
+        answer: "Our ultrasound pricing starts around $150, against typical hospital costs of $400 to $800 for the same scan. We accept most major insurance and quote upfront.",
+      },
+      {
+        question: "Do I need an appointment or a referral for an ultrasound?",
+        answer: "Neither. No referral is required. Call and we will confirm availability, which is usually the same day.",
+      },
+    ],
     slug: 'ultrasound',
     metaTitle: 'Ultrasound | Walk-In Ultrasound Palm Beach County | Urgent Care Ultrasound Near Me',
     metaDescription: 'Get a same-day ultrasound at our Palm Beach County urgent care. Walk-in ultrasound for soft tissue, OB/GYN, and vascular evaluations. No appointment needed. Fast, affordable, and expert imaging with immediate results.',

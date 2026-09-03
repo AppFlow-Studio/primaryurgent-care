@@ -8,6 +8,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 const EmergencyRoomPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params
   const service = services.find(service => service.slug === slug)
+  const faqs = service && 'faqs' in service ? (service.faqs as { question: string; answer: string }[]) : []
   
   // Structured data for emergency room services
   const EmergencyRoomServiceJsonLd = () => (
@@ -32,10 +33,35 @@ const EmergencyRoomPage = async ({ params }: { params: Promise<{ slug: string }>
       }}
     />
   );
-  
+
+  // FAQPage schema.
+  //
+  // Google deprecated FAQ rich results on 2026-05-07, so this no longer produces the
+  // expandable answers in Search. It is kept because the markup is still valid
+  // schema.org, Google parses it without penalty, and other crawlers and AI retrieval
+  // systems do read it. The ranking work is done by the visible questions below, not
+  // by this. Only emitted when the service actually has questions.
+  const FaqJsonLd = () => (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+          })),
+        })
+      }}
+    />
+  );
+
   return (
     <main className="w-full bg-[#FAFAFA] min-h-screen max-w-8xl mx-auto">
       <EmergencyRoomServiceJsonLd />
+      {faqs.length > 0 && <FaqJsonLd />}
       <Breadcrumb items={[
         { name: 'Home', href: '/' },
         { name: 'Emergency Room', href: '/emergency-room' },
@@ -93,6 +119,33 @@ const EmergencyRoomPage = async ({ params }: { params: Promise<{ slug: string }>
           </div>
         </Reveal>
       </div>
+
+      {/* Common questions.
+
+          These are not invented. Each one is a query Search Console shows people using
+          to reach this page, where the page then ranked 8th to 24th and earned no
+          clicks, because it explained what the scan is and never said whether we do it.
+
+          Every figure in the answers is taken from the costs copy on the same page, and
+          every claim is about what this clinic has rather than what competitors lack,
+          because the latter cannot be substantiated. */}
+      {faqs.length > 0 && (
+        <div className='max-w-7xl mx-auto w-full mt-16'>
+          <h2 className='text-2xl md:text-3xl font-bold text-black mb-8'>
+            {service?.title} at urgent care: common questions
+          </h2>
+          <div className='flex flex-col gap-8'>
+            {faqs.map((faq) => (
+              <Reveal key={faq.question} className='w-full'>
+                <div className='flex flex-col gap-3'>
+                  <h3 className='text-lg md:text-xl font-semibold text-black'>{faq.question}</h3>
+                  <p className='md:text-lg text-md text-gray-600'>{faq.answer}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      )}
       </div>
     </main>
   )
