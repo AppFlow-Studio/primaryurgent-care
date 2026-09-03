@@ -20,8 +20,8 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import Link from "next/link";
 import HomepageMobileHeroForm from "@/components/ui/HomepageMobileHeroForm";
 export const metadata = {
-  title: 'Car Accident Doctor Palm Beach County | PrimaryUC',
-  description: 'Car accident doctor in Palm Beach County. Immediate PIP exam, X-ray & documentation. Walk-ins welcome — 4 locations, seen in under 15 min.',
+  title: 'Palm Beach Urgent Care & Car Accident Doctor | PrimaryUC',
+  description: 'Walk-in urgent care and car accident doctor in Palm Beach County. On-site X-ray, CT and MRI. No referral needed. 4 locations, seen in under 15 minutes.',
   keywords: [
     'car accident doctor west palm beach',
     'personal injury clinic',
@@ -39,8 +39,8 @@ export const metadata = {
     'MRI urgent care'
   ].join(', '),
   openGraph: {
-    title: 'Car Accident Doctor Palm Beach County | PrimaryUC',
-    description: 'Car accident doctor in Palm Beach County. Immediate PIP exam, X-ray & documentation. Walk-ins welcome — 4 locations, seen in under 15 min.',
+    title: 'Palm Beach Urgent Care & Car Accident Doctor | PrimaryUC',
+    description: 'Walk-in urgent care and car accident doctor in Palm Beach County. On-site X-ray, CT and MRI. No referral needed. 4 locations, seen in under 15 minutes.',
     url: 'https://primaryuc.com/',
     siteName: 'Primary & Urgent Care Centers',
     images: [
@@ -56,8 +56,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Car Accident Doctor Palm Beach County | PrimaryUC',
-    description: 'Car accident doctor in Palm Beach County. Immediate PIP exam, X-ray & documentation. Walk-ins welcome — 4 locations, seen in under 15 min.',
+    title: 'Palm Beach Urgent Care & Car Accident Doctor | PrimaryUC',
+    description: 'Walk-in urgent care and car accident doctor in Palm Beach County. On-site X-ray, CT and MRI. No referral needed. 4 locations, seen in under 15 minutes.',
     images: ['/Homepage25.png'],
   },
   alternates: {
