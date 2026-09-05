@@ -2,14 +2,40 @@
 import { CheckCircle, Mail, Users, Share2, Instagram, Phone, MapPin, Clock } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { DotLottieReact } from "@lottiefiles/dotlottie-react"
 import { PRIMARY_PHONE_HREF, PRIMARY_PHONE_DISPLAY } from "@/lib/constants/phone"
 
+// Google Ads conversion label for "PUC | Lake Worth | Accident Form Lead"
+// (conversion type ID 7731281883). This is the page-load event snippet Google Ads
+// generates for that action under "Set up with a Google tag".
+const ADS_FORM_LEAD_SEND_TO = "AW-17373488028/yNapCNv_x-YcEJzHqdxA"
+
 export default function ThankYouPage() {
-    // Note: Conversion tracking is handled by GTM on this page
-    // GTM fires conversion tag when Page Path contains /thank-you
+    // Fire the Google Ads conversion on load of this confirmation page.
+    //
+    // This page previously carried a comment saying GTM fired the conversion when the
+    // page path contained /thank-you. That was not true in practice: a live check on
+    // 2026-09-05 found only a gtag.config ping on this URL and no conversion event, and
+    // the conversion action had recorded zero conversions since it was created on
+    // 2026-08-23. The action is configured in Google Ads as a "Manual event" under
+    // "Set up with a Google tag", which requires this snippet on the page.
+    //
+    // Consent is handled upstream by Google Consent Mode, which the site already
+    // configures, so gtag decides for itself whether the hit may be sent.
+    const hasFiredConversion = useRef(false)
+
+    useEffect(() => {
+        if (hasFiredConversion.current) return
+        hasFiredConversion.current = true
+
+        const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag
+        if (typeof gtag === "function") {
+            gtag("event", "conversion", { send_to: ADS_FORM_LEAD_SEND_TO })
+        }
+    }, [])
 
     return (
         <div className="lg:py-[80px] py-[40px] w-full bg-gradient-to-br from-red-50 to-slate-50">

@@ -31,8 +31,19 @@ export function trackEvent({
 }
 
 // Form submission tracking for GA4 analytics only
-// Note: Google Ads conversions are handled by GTM on /thank-you page
-// Never push 'conversion' events from React - GTM handles all conversions
+//
+// Note on Google Ads conversions, corrected 2026-09-05. This comment previously said
+// they were handled by GTM on the /thank-you page and that React must never push a
+// 'conversion' event. GTM was not in fact firing one: a live check found only a
+// gtag.config ping on /thank-you, and the "PUC | Lake Worth | Accident Form Lead"
+// action had recorded zero conversions since it was created. That action is configured
+// in Google Ads as a "Manual event" under "Set up with a Google tag", so the page-load
+// event snippet now lives in app/thank-you/page.tsx.
+//
+// The rule that still holds: fire the Ads conversion in exactly ONE place, on the
+// confirmation page. Do not add a second 'conversion' push from an individual form, and
+// if a GTM tag for this action is ever added, remove the one in app/thank-you/page.tsx
+// first or the lead will be counted twice.
 export function trackFormSubmission({
   formName,
   value
