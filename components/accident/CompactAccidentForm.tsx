@@ -117,13 +117,9 @@ const CompactAccidentForm: React.FC<CompactAccidentFormProps> = ({
           city: city || "",
           page_type: "car_accident_city",
         });
-        // Also fire gtag generate_lead
-        if (typeof analyticsWindow.gtag === "function") {
-          analyticsWindow.gtag("event", "generate_lead", {
-            event_category: "car_accident",
-            event_label: city || "",
-          });
-        }
+        // generate_lead is NOT fired here. It fires once on /thank-you, which this
+        // form redirects to below, so firing it here as well would count one patient
+        // twice. The dataLayer push above keeps the city and form_location context.
       } catch {}
 
       // Push enhanced conversion data only with marketing consent (contains PII)

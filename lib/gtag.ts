@@ -44,6 +44,12 @@ export function trackEvent({
 // confirmation page. Do not add a second 'conversion' push from an individual form, and
 // if a GTM tag for this action is ever added, remove the one in app/thank-you/page.tsx
 // first or the lead will be counted twice.
+//
+// The same now applies to the GA4 lead event, added 2026-09-07. 'generate_lead' fires
+// once in app/thank-you/page.tsx and nowhere else. The form_submit event below goes to
+// dataLayer only and GTM does not relay it to GA4, which is why GA4 key events read
+// zero for months; it is kept for its context, not as the lead signal. Do not re-add a
+// 'generate_lead' call to an individual form.
 export function trackFormSubmission({
   formName,
   value
