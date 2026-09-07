@@ -13,6 +13,9 @@ import { PRIMARY_PHONE_HREF, PRIMARY_PHONE_DISPLAY } from "@/lib/constants/phone
 // generates for that action under "Set up with a Google tag".
 const ADS_FORM_LEAD_SEND_TO = "AW-17373488028/yNapCNv_x-YcEJzHqdxA"
 
+// GA4 property for primaryuc.com, configured with gtag in app/layout.tsx.
+const GA4_MEASUREMENT_ID = "G-2BKMKZM043"
+
 export default function ThankYouPage() {
     // Fire the Google Ads conversion on load of this confirmation page.
     //
@@ -25,6 +28,17 @@ export default function ThankYouPage() {
     //
     // Consent is handled upstream by Google Consent Mode, which the site already
     // configures, so gtag decides for itself whether the hit may be sent.
+    //
+    // The GA4 generate_lead event was added here on 2026-09-07, for the same reason and
+    // in the same place. The forms pushed "form_submit" and "car_accident_form_submit"
+    // to dataLayer and relied on GTM to turn those into GA4 events. GTM does not:
+    // measured over 2026-08-28 to 2026-09-07, GA4 recorded 11 /thank-you page views and
+    // 12 form_start events, against ZERO generate_lead and ZERO form_submit, so the
+    // property's key events read 0 on every single day.
+    //
+    // Firing on this page rather than inside each form is also more reliable: both forms
+    // call window.location.assign() immediately after submitting, which can cut off a
+    // beacon sent a moment earlier. Here the navigation has already finished.
     const hasFiredConversion = useRef(false)
 
     useEffect(() => {
@@ -34,6 +48,7 @@ export default function ThankYouPage() {
         const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag
         if (typeof gtag === "function") {
             gtag("event", "conversion", { send_to: ADS_FORM_LEAD_SEND_TO })
+            gtag("event", "generate_lead", { send_to: GA4_MEASUREMENT_ID })
         }
     }, [])
 
