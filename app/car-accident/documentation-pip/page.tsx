@@ -53,14 +53,14 @@ const pipFaqs = [
 ];
 
 export const metadata: Metadata = {
-  title: "Florida PIP 14-Day Rule + EMC | Car Accident Exam | PrimaryUC",
+  title: "Does Florida PIP Cover X-Rays? 14-Day Rule + EMC | PrimaryUC",
   description:
-    "Florida PIP 14-day rule explained. Same-day car accident exam, emergency medical condition (EMC) certification, and PIP documentation in Palm Beach County. $10,000 cap protected.",
+    "Florida's 14-day PIP rule, EMC certification, and what PIP covers after a crash. Same-day exam, onsite X-ray, and the paperwork your claim needs.",
   alternates: { canonical: `${baseUrl}/car-accident/documentation-pip` },
   openGraph: {
-    title: "Florida PIP 14-Day Rule + EMC | Car Accident Exam | PrimaryUC",
+    title: "Does Florida PIP Cover X-Rays? 14-Day Rule + EMC | PrimaryUC",
     description:
-      "Florida PIP 14-day rule explained. Same-day car accident exam, emergency medical condition (EMC) certification, and PIP documentation in Palm Beach County. $10,000 cap protected.",
+      "Florida's 14-day PIP rule, EMC certification, and what PIP covers after a crash. Same-day exam, onsite X-ray, and the paperwork your claim needs.",
     url: `${baseUrl}/car-accident/documentation-pip`,
     type: 'article',
     siteName: "Primary & Urgent Care Centers",
@@ -76,8 +76,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Florida PIP 14-Day Rule + EMC | Car Accident Exam | PrimaryUC",
-    description: "Florida PIP 14-day rule + EMC certification. Same-day car accident exam & PIP documentation in Palm Beach County. Protect your $10,000 PIP cap.",
+    title: "Does Florida PIP Cover X-Rays? 14-Day Rule + EMC | PrimaryUC",
+    description: "Florida's 14-day PIP rule, EMC certification, and what PIP covers after a crash. Same-day exam, onsite X-ray, and the paperwork your claim needs.",
     images: [`${baseUrl}/man-on-phone-next-to-open-hood.jpg`],
     site: '@primaryurgentcare',
   },
