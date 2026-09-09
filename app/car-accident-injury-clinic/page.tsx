@@ -67,12 +67,12 @@ const accidentFaqs = [
 ];
 
 export const metadata: Metadata = {
-  title: "PIP Doctor Near Me | We Bill Florida PIP Directly | PrimaryUC",
+  title: "Car Accident & PIP Doctor Near Me | Direct PIP Billing",
   description:
     "Car accident injury clinic in Palm Beach County that bills Florida PIP directly. Same-day exam, onsite X-ray $70, walk in. 14-day rule compliant. 4 locations.",
   alternates: { canonical: `${baseUrl}/car-accident-injury-clinic` },
   openGraph: {
-    title: "PIP Doctor Near Me | We Bill Florida PIP Directly | PrimaryUC",
+    title: "Car Accident & PIP Doctor Near Me | Direct PIP Billing",
     description:
       "Car accident injury clinic in Palm Beach County that bills Florida PIP directly. Same-day exam, onsite X-ray $70, walk in. 14-day rule compliant. 4 locations.",
     url: `${baseUrl}/car-accident-injury-clinic`,
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "PIP Doctor Near Me | We Bill Florida PIP Directly | PrimaryUC",
+    title: "Car Accident & PIP Doctor Near Me | Direct PIP Billing",
     description: "Car accident injury clinic in Palm Beach County that bills Florida PIP directly. Same-day exam, onsite X-ray $70, walk in. 14-day rule compliant.",
     images: [`${baseUrl}/websitelogo.png`],
     site: '@primaryurgentcare',
