@@ -89,8 +89,8 @@ export const services = [
       },
     ],
     slug: 'ct-scan',
-    metaTitle: 'CT Scan | Same-Day CT Imaging Palm Beach County | Urgent Care CT Near Me',
-    metaDescription: 'Walk in for a same-day CT scan at our Palm Beach County urgent care. Fast, low-dose CT imaging for trauma, chest pain, and emergencies. No appointment needed. Hospital-quality CT with immediate results and affordable pricing.',
+    metaTitle: 'Can Urgent Care Do a CT Scan? Same-Day CT, $200 | PrimaryUC',
+    metaDescription: 'Yes. We offer same-day CT imaging in Palm Beach County, $200 self-pay, with results the same day. No outside specialist referral needed. Walk in, 4 locations.',
     keywords: [
       'urgent care CT scan',
       'CT scan near me',
