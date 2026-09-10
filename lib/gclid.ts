@@ -1,5 +1,27 @@
 'use client';
 
+// Attribution data (gclid, gbraid, wbraid, UTMs, landing page, device) is stored in a
+// first-party cookie rather than sessionStorage. sessionStorage only lives for one
+// browser tab/session, so a visitor who clicks an ad and submits the form later (a new
+// tab, the next day, after closing the browser) loses the click id entirely before the
+// form can attach it. 90 days matches Google's own recommended cookie window for GCLID
+// capture: https://support.google.com/google-ads/answer/3285060
+const ATTRIBUTION_COOKIE_MAX_AGE_DAYS = 90;
+
+function setCookie(name: string, value: string, days: number): void {
+  if (typeof document === 'undefined') return;
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${date.toUTCString()}; path=/; SameSite=Lax`;
+}
+
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const escaped = name.replace(/[.$?*|{}()[\]\\/+^]/g, '\\$&');
+  const match = document.cookie.match(new RegExp('(?:^|; )' + escaped + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
 export function captureGclid(): void {
   if (typeof window === 'undefined') return;
   const params = new URLSearchParams(window.location.search);
@@ -18,13 +40,13 @@ export function captureGclid(): void {
   for (const key of keys) {
     const value = params.get(key);
     if (value) {
-      sessionStorage.setItem(key, value);
+      setCookie(key, value, ATTRIBUTION_COOKIE_MAX_AGE_DAYS);
     }
   }
-  if (!sessionStorage.getItem('landing_page_url')) {
-    sessionStorage.setItem('landing_page_url', window.location.href);
+  if (!getCookie('landing_page_url')) {
+    setCookie('landing_page_url', window.location.href, ATTRIBUTION_COOKIE_MAX_AGE_DAYS);
   }
-  sessionStorage.setItem('device', getDeviceType());
+  setCookie('device', getDeviceType(), ATTRIBUTION_COOKIE_MAX_AGE_DAYS);
 }
 
 export function getAttributionData(): {
@@ -58,18 +80,18 @@ export function getAttributionData(): {
     };
   }
   return {
-    gclid: sessionStorage.getItem('gclid') || '',
-    gbraid: sessionStorage.getItem('gbraid') || '',
-    wbraid: sessionStorage.getItem('wbraid') || '',
-    utm_source: sessionStorage.getItem('utm_source') || '',
-    utm_medium: sessionStorage.getItem('utm_medium') || '',
-    utm_campaign: sessionStorage.getItem('utm_campaign') || '',
-    utm_adgroup: sessionStorage.getItem('utm_adgroup') || '',
-    utm_keyword: sessionStorage.getItem('utm_keyword') || '',
-    utm_term: sessionStorage.getItem('utm_term') || '',
-    utm_content: sessionStorage.getItem('utm_content') || '',
-    landing_page_url: sessionStorage.getItem('landing_page_url') || '',
-    device: sessionStorage.getItem('device') || getDeviceType(),
+    gclid: getCookie('gclid') || '',
+    gbraid: getCookie('gbraid') || '',
+    wbraid: getCookie('wbraid') || '',
+    utm_source: getCookie('utm_source') || '',
+    utm_medium: getCookie('utm_medium') || '',
+    utm_campaign: getCookie('utm_campaign') || '',
+    utm_adgroup: getCookie('utm_adgroup') || '',
+    utm_keyword: getCookie('utm_keyword') || '',
+    utm_term: getCookie('utm_term') || '',
+    utm_content: getCookie('utm_content') || '',
+    landing_page_url: getCookie('landing_page_url') || '',
+    device: getCookie('device') || getDeviceType(),
   };
 }
 
