@@ -10,9 +10,9 @@ const ATTRIBUTION_COOKIE_MAX_AGE_DAYS = 90;
 
 function setCookie(name: string, value: string, days: number): void {
   if (typeof document === 'undefined') return;
-  const date = new Date();
-  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${date.toUTCString()}; path=/; SameSite=Lax`;
+  const maxAge = days * 24 * 60 * 60;
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; SameSite=Lax${secure}`;
 }
 
 function getCookie(name: string): string | null {
@@ -46,7 +46,12 @@ export function captureGclid(): void {
   if (!getCookie('landing_page_url')) {
     setCookie('landing_page_url', window.location.href, ATTRIBUTION_COOKIE_MAX_AGE_DAYS);
   }
-  setCookie('device', getDeviceType(), ATTRIBUTION_COOKIE_MAX_AGE_DAYS);
+  // First-touch, same as landing_page_url. Once the cookie survives across visits, a
+  // return visit on a different device must not overwrite the device that produced the
+  // original ad click, or the attribution record no longer matches what actually happened.
+  if (!getCookie('device')) {
+    setCookie('device', getDeviceType(), ATTRIBUTION_COOKIE_MAX_AGE_DAYS);
+  }
 }
 
 export function getAttributionData(): {
